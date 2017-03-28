@@ -216,8 +216,6 @@ RESPONSE
 
 PUT http://localhost:3000/test/
 
-RESPONSE
-
     {
       "schema":"hi",
       "id": "58da0ada1577ce26c3d19832",
@@ -226,9 +224,25 @@ RESPONSE
       }
     }
 
+RESPONSE
+
+    {
+      "status": true,
+      "response": {
+        "n": 0,
+        "nModified": 0,
+        "ok": 1
+      }
+    }
+
 ### 刪除
 
 DELETE http://localhost:3000/test/
+
+    {
+      "schema":"hi",
+      "id": "58da0ada1577ce26c3d19832"
+    }
 
 RESPONSE
 
