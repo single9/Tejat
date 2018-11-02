@@ -44,51 +44,56 @@ A Server-side JavaScript Framework.
 **modules/test.js**
 
 ```js
-/**
-* Module dependencies.
-* @ignore
-*/
-
 const Framework = require("../libs/framework");
 
 var test = new Framework({
-  // 定義 Schema
+  // Your schema
   schemas: {
     hi: {
-      values: {
-        type: Array,
+      str: {
+        type: String,
         unique: true
       },
       date: {
         type: Date,
         default: Date.now
       }
-    },
-    alpha: {
-      username: {
-        type: Array,
-        required: true,
-        unique: true
-      },
-      date: {
-        type: Date,
-        default: Date.now
-      }
-    }
-  },
-  
-  // 自定義方法
-  methods: {
-    test: function (req, res) {
-      res.json(true);
-      return this;
     }
   },
 
-  // 自定義路由
+  // Your methods
+  methods: {
+    getClientIP: function (req, res, next) {
+      let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+      this.logger.info('Your IP address is', ip);
+      next();
+    },
+    test: function (req, res, next) {
+      res.json("Hello, World!");
+      next();
+    },
+    sayGoodBye: function (req, res, next) {
+      this.logger.info('Bye~');
+      next();
+    },
+  },
+
+  // Before routes
+  beforeRoutes: [
+    {fnName: 'getClientIP'}
+  ],
+
+  // Main routes
   routes: {
-    "/test": ["get", "test"]
-  }
+    "/hello": [
+      {method: 'get', fnName: 'test'},
+    ]
+  },
+
+  // After routes
+  afterRoutes: [
+    {fnName: 'sayGoodBye'}
+  ],
 
 });
 
