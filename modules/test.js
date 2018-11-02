@@ -6,6 +6,7 @@
 const Framework = require("../libs/framework");
 
 var test = new Framework({
+  // Your schema
   schemas: {
     hi: {
       str: {
@@ -28,16 +29,39 @@ var test = new Framework({
     }
   },
 
+  // Your methods
   methods: {
-    test: function (req, res) {
+    getClientIP: function (req, res, next) {
+      let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+      this.logger.info('Your IP address is', ip);
+      next();
+    },
+    test: function (req, res, next) {
       res.json("Hello, World!");
-      return this;
-    }
+      next();
+    },
+    sayGoodBye: function (req, res, next) {
+      this.logger.info('Bye~');
+      next();
+    },
   },
 
+  // Before routes
+  beforeRoutes: [
+    {fnName: 'getClientIP'}
+  ],
+
+  // Main routes
   routes: {
-    "/test": ["get", "test"]
-  }
+    "/hello": [
+      {method: 'get', fnName: 'test'},
+    ]
+  },
+
+  // After routes
+  afterRoutes: [
+    {fnName: 'sayGoodBye'}
+  ],
 
 });
 

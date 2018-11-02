@@ -43,55 +43,57 @@ A Server-side JavaScript Framework.
 
 **modules/test.js**
 
-    /**
-    * Module dependencies.
-    * @ignore
-    */
+```js
+/**
+* Module dependencies.
+* @ignore
+*/
 
-    const Framework = require("../libs/framework");
+const Framework = require("../libs/framework");
 
-    var test = new Framework({
-      // 定義 Schema
-      schemas: {
-        hi: {
-          values: {
-            type: Array,
-            unique: true
-          },
-          date: {
-            type: Date,
-            default: Date.now
-          }
-        },
-        alpha: {
-          username: {
-            type: Array,
-            required: true,
-            unique: true
-          },
-          date: {
-            type: Date,
-            default: Date.now
-          }
-        }
+var test = new Framework({
+  // 定義 Schema
+  schemas: {
+    hi: {
+      values: {
+        type: Array,
+        unique: true
       },
-      
-      // 自定義方法
-      methods: {
-        test: function (req, res) {
-          res.json(true);
-          return this;
-        }
-      },
-
-      // 自定義路由
-      routes: {
-        "/test": ["get", "test"]
+      date: {
+        type: Date,
+        default: Date.now
       }
+    },
+    alpha: {
+      username: {
+        type: Array,
+        required: true,
+        unique: true
+      },
+      date: {
+        type: Date,
+        default: Date.now
+      }
+    }
+  },
+  
+  // 自定義方法
+  methods: {
+    test: function (req, res) {
+      res.json(true);
+      return this;
+    }
+  },
 
-    });
+  // 自定義路由
+  routes: {
+    "/test": ["get", "test"]
+  }
 
-    module.exports = test;
+});
+
+module.exports = test;
+```
 
 ### schemas
 
@@ -126,8 +128,26 @@ A Server-side JavaScript Framework.
 除框架內的基本路由外，亦可自行設定新的路由。
 
     routes: {
-      "/user": ["HTTP method", "method(function)"]
+      "/user": [
+        {method: "HTTP method", fnName: "method name"}
+      ]
     }
+
+此外，你還可以在路由進入之前或之後加 middleware。
+
+#### before
+
+    beforeRoutes: [
+      {path: 'path', fnName: 'method name'}
+    ],
+
+#### after
+
+    afterRoutes: [
+      {path: 'path', fnName: 'method name'}
+    ],
+
+path 不特別設定則如同 `app.route.use(middleware)`
 
 使用範例
 ------

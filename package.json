@@ -14,8 +14,9 @@
   "license": "MIT",
   "homepage": "https://github.com/single9/Tejat.git",
   "dependencies": {
-    "body-parser": "^1.16.1",
-    "express": "^4.14.1",
-    "mongoose": "^4.8.3"
+    "body-parser": "^1.18.3",
+    "dateformat": "^3.0.3",
+    "express": "^4.16.4",
+    "mongoose": "^4.13.17"
   }
 }

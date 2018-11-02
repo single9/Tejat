@@ -6,7 +6,7 @@
 const fs = require("fs");
 const express = require ("express");
 const bodyParser = require("body-parser");
-const debug = require("./libs/utils").debug;
+const log = require("./libs/utils").log;
 const app = module.exports = express();
 
 // parse application/x-www-form-urlencoded
@@ -27,7 +27,7 @@ modules.forEach(function(element) {
   app.use("/" + moduleName, routers[moduleName].routers);
 }, this);
 
-debug("Modules: " + Object.keys(routers));
+log.info("Modules: " + Object.keys(routers));
 
 if (!module.parent) {
   app.listen(3000);

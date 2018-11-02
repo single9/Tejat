@@ -1,5 +1,7 @@
 {
   "db": {
-    "url": "mongodb://localhost/test"
+    "host": "localhost",
+    "port": 27017,
+    "dbName": "mydb"
   }
 }
